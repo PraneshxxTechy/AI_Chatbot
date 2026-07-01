@@ -4,19 +4,16 @@ from .chat_service import generate_response
 from .conversation_history import ConversationHistory
 
 def chat(message, history):
-    history = history or []
-    conversation_history = ConversationHistory()
-    messages = conversation_history.get_messages()
+    conversation =  ConversationHistory()
 
-    for msg in history:
-        if msg["role"] == "user":
-            conversation_history.add_user_message(msg["content"])
-        elif msg["role"] == "assistant":
-            conversation_history.add_assistant_message(msg["content"])
+    for user_msg, assistant_msg in history:
+            conversation.add_user_message(user_msg)
+            conversation.add_assistant_message(assistant_msg)
 
-    conversation_history.add_user_message(message)
-    response = generate_response(conversation_history.get_messages())
-    conversation_history.add_assistant_message(response)
+    conversation.add_user_message(message)
+    response = generate_response(conversation.get_messages())
+    conversation.add_assistant_message(response)
+    print(f"Conversation messages: {conversation.get_messages()}")
     return response
 
 
