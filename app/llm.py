@@ -1,9 +1,13 @@
 from groq import Groq
 from dotenv import load_dotenv
 import os
+import openai
+
+from langfuse.openai import OpenAI
 
 load_dotenv()
 
-llm_api = os.getenv("llm_api")
-
-client = Groq(api_key=llm_api)
+client = OpenAI(
+    base_url="https://api.groq.com/openai/v1",
+    api_key=os.environ.get("GROQ_API_KEY")
+)
